@@ -11,7 +11,7 @@ import AVFoundation
 
 class ViewController: UIViewController {
 
-    var player: AVAudioPlayer?
+    var player: AVAudioPlayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,30 +19,16 @@ class ViewController: UIViewController {
 
 
     @IBAction func keyPressed(_ sender: UIButton) {
-       playSound()
-        print("Pressed")
+        playSound(soundName: sender.currentTitle!)
+        /*Qdo um botao for pressionado, buscara o titulo atual do botao e sua extensao correta conforme o botao clicado*/
+        
     }
 
-func playSound() {
-    guard let url = Bundle.main.url(forResource: "C", withExtension: "wav") else { return }
-
-    do {
-        try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-        try AVAudioSession.sharedInstance().setActive(true)
-
-        /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
-        player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-
-        /* iOS 10 and earlier require the following line:
-        player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
-
-        guard let player = player else { return }
-
+    func playSound(soundName:String) {
+        let url = Bundle.main.url(forResource: "soundName", withExtension: "wav")
+        player = try! AVAudioPlayer(contentsOf: url!)
         player.play()
-
-    } catch let error {
-        print(error.localizedDescription)
+                
     }
-}
 }
 
